@@ -13,4 +13,4 @@
 ### 1. Message Synchronization
 ### 2. Notification Alerts
 ### 3. Message storage and persistence
-### 4. 
+### 4. Anonimity ?
