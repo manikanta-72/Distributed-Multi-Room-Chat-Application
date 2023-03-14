@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import SockJsClient from 'react-stomp';
 import './App.css';
-import Input from './components/Input/Input';
 import LoginForm from './components/LoginForm';
-import Messages from './components/Messages/Messages';
-import chatAPI from './services/chatapi';
+import GroupView from './components/TabPanel/tabpanel'
 import { randomColor } from './utils/common';
 
 
 const SOCKET_URL = 'http://localhost:8080/ws-chat/';
 
 const App = () => {
-  const [messages, setMessages] = useState([])
+  const [newMessage, setNewMessage] = useState(null)
   const [user, setUser] = useState(null)
 
   let onConnected = () => {
@@ -19,16 +17,7 @@ const App = () => {
   }
 
   let onMessageReceived = (msg) => {
-    console.log('New Message Received!!', msg);
-    setMessages(messages.concat(msg));
-  }
-
-  let onSendMessage = (msgText) => {
-    chatAPI.sendMessage(user.username, msgText).then(res => {
-      console.log('Sent', res);
-    }).catch(err => {
-      console.log('Error Occured while sending message to api');
-    })
+    setNewMessage(msg);
   }
 
   let handleLoginSubmit = (username) => {
@@ -54,11 +43,7 @@ const App = () => {
               onMessage={msg => onMessageReceived(msg)}
               debug={false}
             />
-            <Messages
-              messages={messages}
-              currentUser={user}
-            />
-            <Input onSendMessage={onSendMessage} />
+            <GroupView user={user} newMessage={newMessage} />
           </>
         ) :
         <LoginForm onSubmit={handleLoginSubmit} />
