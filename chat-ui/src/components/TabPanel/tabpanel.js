@@ -19,7 +19,7 @@ function TabPanel(props) {
             // hidden={value !== index}
             id={`vertical-tabpanel-${index}`}
             aria-labelledby={`vertical-tab-${index}`}
-            style={{ width: value == index? "100%": 0, visibility: value == index? 'visible': 'hidden' }}
+            style={{ width: value == index? "100%": 0, visibility: value == index? 'visible': 'hidden', background: "cornsilk" }}
             {...other}
         >
             <Box style={{ width: "100%" }}>
@@ -37,12 +37,14 @@ function a11yProps(index) {
     };
 }
 
-const ChatView = ({user, newMessage}) => {
+const ChatView = ({user, newMessage, topic}) => {
     const [messages, setMessages] = useState([])
 
     useEffect(() => {
         if (newMessage!=null){
-            onMessageReceived(newMessage);
+            if(newMessage.topic == topic){
+                onMessageReceived(newMessage);
+            }
         }
       }, [newMessage]);
 
@@ -52,7 +54,7 @@ const ChatView = ({user, newMessage}) => {
     }
 
     let onSendMessage = (msgText) => {
-        chatAPI.sendMessage(user.username, msgText).then(res => {
+        chatAPI.sendMessage(user.username, msgText, topic).then(res => {
             console.log('Sent', res);
         }).catch(err => {
             console.log('Error Occured while sending message to api');
@@ -84,20 +86,20 @@ export default function GroupView({ user , newMessage}) {
                 value={value}
                 onChange={handleChange}
                 aria-label="Vertical tabs example"
-                style={{ borderRight: 1, borderColor: 'divider' }}
+                style={{ border: "1px dotted gray", backgroundColor: "darkkhaki" }}
             >
                 <Tab label="Topic 1" {...a11yProps(0)} />
                 <Tab label="Topic 2" {...a11yProps(1)} />
                 <Tab label="Topic 3" {...a11yProps(2)} />
             </Tabs>
             <TabPanel value={value} index={0} >
-                <ChatView user={user} newMessage={newMessage}/>
+                <ChatView user={user} newMessage={newMessage} topic={"topic1"}/>
             </TabPanel>
             <TabPanel value={value} index={1} >
-                <ChatView user={user} newMessage={newMessage}/>
+                <ChatView user={user} newMessage={newMessage} topic={"topic2"}/>
             </TabPanel>
             <TabPanel value={value} index={2} >
-                <ChatView user={user} newMessage={newMessage}/>
+                <ChatView user={user} newMessage={newMessage} topic={"topic3"}/>
             </TabPanel>
         </Box>
     );

@@ -3,6 +3,7 @@ package com.shubh.kafkachat.model;
 public class Message {
     private String sender;
     private String content;
+    private String topic;
     private String timestamp;
 
     public Message() {
@@ -24,9 +25,18 @@ public class Message {
         this.sender = sender;
     }
 
-    public Message(String sender, String content) {
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public Message(String sender, String content, String topic) {
         this.sender = sender;
         this.content = content;
+        this.topic = topic;
     }
 
     public String getContent() {
@@ -42,6 +52,7 @@ public class Message {
         return "Message{" +
                 "sender='" + sender + '\'' +
                 ", content='" + content + '\'' +
+                ", topic='" + topic + '\'' +
                 ", timestamp='" + timestamp + '\'' +
                 '}';
     }

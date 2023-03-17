@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-
+import SendIcon from '@material-ui/icons/Send';
 const Input = ({ onSendMessage }) => {
     const [text, setText] = useState("")
 
@@ -18,8 +18,8 @@ const Input = ({ onSendMessage }) => {
         <div className="message-input">
             <TextField
                 className="inputField"
-                label="Type your message here..."
-                placeholder="Enter your message and press ENTER"
+                label="Type your message here"
+                placeholder="Typing..."
                 onChange={e => onChange(e)}
                 margin="normal"
                 value={text}
@@ -31,9 +31,7 @@ const Input = ({ onSendMessage }) => {
                 style={{ height: "30px", width: "80%" }}
             />
 
-            <Button variant="contained" color="primary" onClick={onSubmit}>
-                Send
-            </Button>
+            <Button variant="contained" color="secondary" onClick={onSubmit} endIcon={<SendIcon />} />
         </div>
     );
 }

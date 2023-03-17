@@ -8,16 +8,19 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MessageListener {
+public class MessageListenerTopic1 {
     @Autowired
     SimpMessagingTemplate template;
 
     @KafkaListener(
             topics = KafkaConstants.KAFKA_TOPIC,
-            groupId = KafkaConstants.GROUP_ID
+            groupId = KafkaConstants.GROUP_ID_1,
+            containerFactory = "kafkaListenerContainerFactory"
     )
     public void listen(Message message) {
         System.out.println("sending via kafka listener..");
-        template.convertAndSend("/topic/group", message);
+        if(message.getTopic().equals(KafkaConstants.GROUP_ID_1) ){
+            template.convertAndSend("/topic/group", message);
+        }
     }
 }

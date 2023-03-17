@@ -3,7 +3,7 @@ import React from 'react'
 const Messages = ({ messages, currentUser }) => {
 
     let renderMessage = (message) => {
-        const { sender, content, color } = message;
+        const { sender, content, topic, color } = message;
         const messageFromMe = currentUser.username === message.sender;
         const className = messageFromMe ? "Messages-message currentUser" : "Messages-message";
         return (
@@ -16,7 +16,7 @@ const Messages = ({ messages, currentUser }) => {
                     <div className="username">
                         {sender}
                     </div>
-                    <div className="text">{content}</div>
+                    <div className="text">{content} - from {topic}</div>
                 </div>
             </li>
         );
