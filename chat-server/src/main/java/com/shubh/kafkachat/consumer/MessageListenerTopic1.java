@@ -13,14 +13,12 @@ public class MessageListenerTopic1 {
     SimpMessagingTemplate template;
 
     @KafkaListener(
-            topics = KafkaConstants.KAFKA_TOPIC,
+            topics = KafkaConstants.KAFKA_TOPIC1,
             groupId = KafkaConstants.GROUP_ID_1,
             containerFactory = "kafkaListenerContainerFactory"
     )
     public void listen(Message message) {
         System.out.println("sending via kafka listener..");
-        if(message.getTopic().equals(KafkaConstants.GROUP_ID_1) ){
-            template.convertAndSend("/topic/group", message);
-        }
+        template.convertAndSend("/topic/group", message);
     }
 }

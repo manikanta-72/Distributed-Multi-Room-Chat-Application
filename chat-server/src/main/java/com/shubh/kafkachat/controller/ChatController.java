@@ -24,7 +24,9 @@ public class ChatController {
         message.setTimestamp(LocalDateTime.now().toString());
         try {
             //Sending the message to kafka topic queue
-            kafkaTemplate.send(KafkaConstants.KAFKA_TOPIC, message).get();
+            //System.out.println("sending to kafka producer..");
+            //System.out.println(message.toString());
+            kafkaTemplate.send(message.getTopic(), message).get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
