@@ -6,7 +6,7 @@ import GroupView from './components/TabPanel/tabpanel'
 import { randomColor } from './utils/common';
 
 
-const SOCKET_URL = 'http://localhost:8080/ws-chat/';
+const SOCKET_URL = '/ws-chat/';
 
 const App = () => {
   const [newMessage, setNewMessage] = useState(null)
