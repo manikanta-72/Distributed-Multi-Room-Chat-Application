@@ -48,6 +48,13 @@ const ChatView = ({user, newMessage, topic}) => {
         }
       }, [newMessage]);
 
+      useEffect(() => {
+        chatAPI.getMessages(topic, 0).then(({data})=>{
+            let messages = _.filter(data.messages, msg=> _.toLower(msg.topic) == topic)
+            setMessages(messages)
+        })
+      }, []);
+
     let onMessageReceived = (msg) => {
         console.log('New Message Received!!', msg);
         setMessages(messages.concat(msg));
