@@ -35,7 +35,7 @@ public class ChatController {
     }
 
     @GetMapping(value = "/api/message", produces = "application/json")
-    public Map<String, Object> getMessages(@RequestParam int offset ) {
+    public Map<String, Object> getMessages(@RequestParam int offset, @RequestParam String topic ) {
         Message[] messages = new Message[3];
         messages[0] = new Message("Raja", "Message1", "Topic1", 1);
         messages[1] = new Message("Vineeth", "Message2", "Topic2", 1);
