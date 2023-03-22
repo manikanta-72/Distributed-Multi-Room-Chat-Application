@@ -5,6 +5,7 @@ public class Message {
     private String content;
     private String topic;
     private String timestamp;
+    private int seqNum;
 
     public Message() {
     }
@@ -15,6 +16,14 @@ public class Message {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public int getSeqNumber() {
+        return seqNum;
+    }
+
+    public void setSeqNumber(int seqNum) {
+        this.seqNum = seqNum;
     }
 
     public String getSender() {
@@ -33,10 +42,11 @@ public class Message {
         this.topic = topic;
     }
 
-    public Message(String sender, String content, String topic) {
+    public Message(String sender, String content, String topic, int seqNum) {
         this.sender = sender;
         this.content = content;
         this.topic = topic;
+        this.seqNum = seqNum;
     }
 
     public String getContent() {
@@ -54,6 +64,7 @@ public class Message {
                 ", content='" + content + '\'' +
                 ", topic='" + topic + '\'' +
                 ", timestamp='" + timestamp + '\'' +
+                ", seqNum='" + Integer.toString(seqNum) + '\'' +
                 '}';
     }
 }
