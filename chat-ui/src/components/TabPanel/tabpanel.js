@@ -40,6 +40,14 @@ function a11yProps(index) {
 const ChatView = ({user, newMessage, topic}) => {
     const [messages, setMessages] = useState([])
 
+
+    const onScrollTop = (offset)=>{
+        chatAPI.getMessages(topic, offset).then(({data})=>{
+            let _messages = _.reverse(_.filter(data.messages, msg=> _.toLower(msg.topic) == topic))
+            setMessages(_.concat(_messages, messages))
+        })     
+    }
+
     useEffect(() => {
         if (newMessage!=null){
             if(newMessage.topic == topic){
@@ -50,7 +58,8 @@ const ChatView = ({user, newMessage, topic}) => {
 
       useEffect(() => {
         chatAPI.getMessages(topic, 0).then(({data})=>{
-            let messages = _.filter(data.messages, msg=> _.toLower(msg.topic) == topic)
+            let messages = _.reverse(_.filter(data.messages, msg=> _.toLower(msg.topic) == topic))
+
             setMessages(messages)
         })
       }, []);
@@ -70,7 +79,7 @@ const ChatView = ({user, newMessage, topic}) => {
 
     return (
         <>
-            <Messages messages={messages} currentUser={user} />
+            <Messages messages={messages} messageCount={messages.length} onScrollTop={onScrollTop} currentUser={user} />
             <Input onSendMessage={onSendMessage} />
         </>
     )

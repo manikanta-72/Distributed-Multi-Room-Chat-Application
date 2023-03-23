@@ -35,7 +35,6 @@ public class MessageListenerTopic3 {
         try {
             message_json = mapper.writeValueAsString(message);
         } catch (JsonProcessingException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         redisTemplate.opsForValue().set("topic3_seq_" + Integer.toString(currentSeqNum), message_json);
