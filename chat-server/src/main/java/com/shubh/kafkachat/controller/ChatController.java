@@ -32,7 +32,6 @@ public class ChatController {
 
     @PostMapping(value = "/api/message", consumes = "application/json", produces = "application/json")
     public void sendMessage(@RequestBody Message message) {
-        message.setTimestamp(LocalDateTime.now().toString());
         try {
             //Sending the message to kafka topic queue
             //System.out.println("sending to kafka producer..");

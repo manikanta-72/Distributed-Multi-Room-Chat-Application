@@ -4,17 +4,17 @@ public class Message {
     private String sender;
     private String content;
     private String topic;
-    private String timestamp;
+    private long timestamp;
     private int seqNum;
 
     public Message() {
     }
 
-    public String getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -42,11 +42,12 @@ public class Message {
         this.topic = topic;
     }
 
-    public Message(String sender, String content, String topic, int seqNum) {
+    public Message(String sender, String content, String topic, int seqNum, long timestamp) {
         this.sender = sender;
         this.content = content;
         this.topic = topic;
         this.seqNum = seqNum;
+        this.timestamp = timestamp;
     }
 
     public String getContent() {

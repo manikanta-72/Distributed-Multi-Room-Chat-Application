@@ -14,7 +14,8 @@ const chatAPI = {
         let msg = {
             sender: username,
             content: text,
-            topic: topic
+            topic: topic,
+            timestamp: Date.now()
         }
         return api.post(`message`, msg);
     }
