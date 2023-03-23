@@ -4,13 +4,19 @@ import com.shubh.kafkachat.constants.KafkaConstants;
 import com.shubh.kafkachat.model.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.web.bind.annotation.*;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -20,8 +26,11 @@ public class ChatController {
 
     @Autowired
     private KafkaTemplate<String, Message> kafkaTemplate;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+    ObjectMapper objectMapper = new ObjectMapper();
 
-    @PostMapping(value = "/api/messgae", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/api/message", consumes = "application/json", produces = "application/json")
     public void sendMessage(@RequestBody Message message) {
         message.setTimestamp(LocalDateTime.now().toString());
         try {
@@ -36,12 +45,33 @@ public class ChatController {
 
     @GetMapping(value = "/api/message", produces = "application/json")
     public Map<String, Object> getMessages(@RequestParam int offset, @RequestParam String topic ) {
-        Message[] messages = new Message[3];
-        messages[0] = new Message("Raja", "Message1", "Topic1", 1);
-        messages[1] = new Message("Vineeth", "Message2", "Topic2", 1);
-        messages[2] = new Message("Manikanta", "Message3", "Topic2", 1);
+        System.out.println("Topic Id: ");
+        System.out.println(topic);
+        ArrayList<Message> messages = new ArrayList<Message>();
+        int lastSeqNum = 0;
+        if(redisTemplate.opsForValue().get(topic + "_last_seq_num") != null){
+            lastSeqNum = Integer.parseInt((String)redisTemplate.opsForValue().get(topic + "_last_seq_num"));
+            System.out.println(lastSeqNum);
+        }
+        for(int i=lastSeqNum-offset;i>0&&i>lastSeqNum-offset-10;i--){
+            try {
+                if(redisTemplate.opsForValue().get(topic+"_seq_" + Integer.toString(i)) != null){
+                    Message message = objectMapper.readValue((redisTemplate.opsForValue().get(topic+"_seq_" + Integer.toString(i))).toString(), Message.class);
+                    messages.add(message);
+                }
+                else break;
+            } catch (JsonMappingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (JsonProcessingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
         Map<String, Object> response = new HashMap<>();
         response.put("messages", messages);
+        System.out.println("sending old messages to the client");
+        System.out.println(messages);
         return response;
     }
 

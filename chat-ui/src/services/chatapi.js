@@ -16,7 +16,7 @@ const chatAPI = {
             content: text,
             topic: topic
         }
-        return api.post(`send`, msg);
+        return api.post(`message`, msg);
     }
 }
 
