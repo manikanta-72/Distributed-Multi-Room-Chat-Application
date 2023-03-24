@@ -1,5 +1,5 @@
 package com.shubh.kafkachat.consumer;
-
+import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -40,6 +40,8 @@ public class MessageListenerTopic1 {
         }
         redisTemplate.opsForValue().set("topic1_seq_" + Integer.toString(currentSeqNum), message_json);
         redisTemplate.opsForValue().set("topic1_last_seq_num", Integer.toString(currentSeqNum));
+        redisTemplate.expire("topic1_last_seq_num", 43200, TimeUnit.MINUTES);
+        redisTemplate.expire("topic1_seq_" + Integer.toString(currentSeqNum), 43200, TimeUnit.MINUTES);
         //System.out.println(redisTemplate.opsForValue().get("topic1_last_seq_num"));        
         System.out.println("sending via kafka listener..");
         template.convertAndSend("/topic/group", message);

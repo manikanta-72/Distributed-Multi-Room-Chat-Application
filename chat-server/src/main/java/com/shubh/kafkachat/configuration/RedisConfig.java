@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
 //import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
@@ -17,12 +18,16 @@ public class RedisConfig {
 
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
-        // JedisConnectionFactory jedisConFactory
+        JedisConnectionFactory jedisConFactory;
         // = new JedisConnectionFactory();
         // jedisConFactory.setHostName("localhost");
         // jedisConFactory.setPort(6379);
         // return jedisConFactory;
-        return new JedisConnectionFactory();
+        //return new JedisConnectionFactory();
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("44.209.54.63", 6379);
+        redisStandaloneConfiguration.setPassword("distributed");
+        jedisConFactory = new JedisConnectionFactory(redisStandaloneConfiguration);
+        return jedisConFactory;
     }
 
     @Bean
