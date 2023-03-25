@@ -22,14 +22,17 @@ $$Latency(l_i) = t_{ir} - t_{is}$$
 $$Average Latency = \frac{1}{n} * \sum_i l_i $$
 where $t_{ir}$ & $t_{is}$ is the received & sent time of the ith message respectively.
 The below plot represents the latency accross 3 different client in 3 different Networks
+
 ![alt text](https://github.com/manikanta-72/Distributed-Multi-Room-Chat-Application/blob/main/latency%20(1).png)
 
 Spaced-out Latency is a measure of the average latency (RTT) between sending and receiving messages by multiple recipients. In this case, a fixed number of messages is sent over evenly spaced, varying time spans.
 The below plot represents the spaced-out latency accross 3 different client in 3 different Networks.
+
 ![alt text](https://github.com/manikanta-72/Distributed-Multi-Room-Chat-Application/blob/main/space_out_latency.png)
 
 Throughput is another major factor for a distributed system as it calculates the capacity and performance of the system. Similar setting is used to test the throughput of the chat application. Throughput in this system is measured as the number of messages processed divided by the total time taken to process all the messages.
 $$Throughput = \frac{N}{max(T_r) - min(T_s)}$$
 where $T_r$ is the array of messages received timestamps, $T_s$ is the array of messages sent timestamps.
+
 ![alt text](https://github.com/manikanta-72/Distributed-Multi-Room-Chat-Application/blob/main/throughput.png)
 
